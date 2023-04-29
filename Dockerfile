@@ -5,7 +5,7 @@ FROM golang:1.19.6-alpine3.16 as builder
 ENV GO111MODULE=on
 ENV GOPROXY=https://proxy.golang.com.cn,direct
 # 指定构建过程中的工作目录
-WORKDIR /go/src/zhu
+WORKDIR /go/src/raspberry-dashboard
 
 # 将当前目录（dockerfile所在目录）下所有文件都拷贝到工作目录下
 COPY . .
@@ -25,8 +25,8 @@ RUN apk add tzdata && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
 WORKDIR /
 
 # 将构建产物/app/main拷贝到运行时的工作目录中
-COPY --from=builder /go/src/zhu/main /main
-COPY --from=builder /go/src/zhu/assets /assets
+COPY --from=builder /go/src/raspberry-dashboard/main /main
+COPY --from=builder /go/src/raspberry-dashboard/assets /assets
 
 # 执行启动命令
 CMD ["/main"]

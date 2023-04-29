@@ -2,8 +2,8 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
-	"zhu/handle"
-	"zhu/middleware"
+	"raspberry-dashboard/handle"
+	"raspberry-dashboard/middleware"
 )
 
 func Init(r *gin.Engine) {

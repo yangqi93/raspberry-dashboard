@@ -2,9 +2,9 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	_ "zhu/config"
-	_ "zhu/log"
-	"zhu/router"
+	_ "raspberry-dashboard/config"
+	_ "raspberry-dashboard/log"
+	"raspberry-dashboard/router"
 )
 
 func main() {

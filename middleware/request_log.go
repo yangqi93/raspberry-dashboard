@@ -3,7 +3,7 @@ package middleware
 import (
 	"encoding/json"
 	"github.com/gin-gonic/gin"
-	"zhu/log"
+	"raspberry-dashboard/log"
 )
 
 func RequestLog() gin.HandlerFunc {
