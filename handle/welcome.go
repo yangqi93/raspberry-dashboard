@@ -14,8 +14,8 @@ type Status struct {
 	Page struct {
 		Time struct {
 			Start []string `json:"start"`
-		}
-	}
+		} `json:"time"`
+	} `json:"page"`
 	Time   int64  `json:"time"`
 	Uptime string `json:"uptime"`
 	Cpu    struct {
@@ -27,9 +27,9 @@ type Status struct {
 			Iowait  string `json:"iowait"`
 			Irq     string `json:"irq"`
 			Softirq string `json:"softirq"`
-		}
+		} `json:"stat"`
 		Temp []string `json:"temp"`
-	}
+	} `json:"cpu"`
 	Mem struct {
 		Total         float64 `json:"total"`
 		Free          float64 `json:"free"`
@@ -42,29 +42,29 @@ type Status struct {
 			Used    float64 `json:"used"`
 			Free    float64 `json:"free"`
 			Percent float64 `json:"percent"`
-		}
+		} `json:"real"`
 		Swap struct {
 			Total   int `json:"total"`
 			Free    int `json:"free"`
 			Used    int `json:"used"`
 			Percent int `json:"percent"`
-		}
-	}
+		} `json:"swap"`
+	} `json:"mem"`
 	LoadAvg []string `json:"load_avg"`
 	Disk    struct {
 		Total   float64 `json:"total"`
 		Free    float64 `json:"free"`
 		Used    float64 `json:"used"`
 		Percent float64 `json:"percent"`
-	}
+	} `json:"disk"`
 	Net struct {
 		Count      int `json:"count"`
 		Interfaces []struct {
 			Name     string `json:"name"`
 			TotalIn  string `json:"total_in"`
 			TotalOut string `json:"total_out"`
-		}
-	}
+		} `json:"interfaces"`
+	} `json:"net"`
 }
 
 func Welcome(c *gin.Context) {

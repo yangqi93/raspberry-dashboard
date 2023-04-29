@@ -10,4 +10,4 @@ services:
       - ./logs:/logs
       - ./templates:/templates
     ports:
-      - "9001:9001"
+      - "1024:9001"

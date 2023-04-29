@@ -27,8 +27,8 @@ func GetInfo() Status {
 	//cpu
 	cpu, err := os.ReadFile("/proc/stat")
 	if err == nil {
-		str := strings.ReplaceAll(" ", "  ", string(cpu))
-		i := strings.Split(str, "  ")
+		str := strings.ReplaceAll(string(cpu), "  ", " ")
+		i := strings.Split(str, " ")
 		info.Cpu.Stat.User = i[1]
 		info.Cpu.Stat.Nice = i[2]
 		info.Cpu.Stat.Sys = i[3]
@@ -69,6 +69,8 @@ func GetInfo() Status {
 		//        $D['mem']['swap']['percent'] = (floatval($D['mem']['swap']['total'])!=0)?round($D['mem']['swap']['used']/$D['mem']['swap']['total']*100,2):0;
 
 	}
+
+	info.LoadAvg = []string{"0.00", "0.00", "0.00", "2\\/275"}
 
 	return *info
 
