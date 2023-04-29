@@ -27,8 +27,8 @@ func GetInfo() Status {
 	//cpu
 	cpu, err := os.ReadFile("/proc/stat")
 	if err == nil {
-		str := strings.ReplaceAll(" ", "  ", string(cpu))
-		i := strings.Split(str, "  ")
+		str := strings.ReplaceAll(string(cpu), "  ", " ")
+		i := strings.Split(str, " ")
 		info.Cpu.Stat.User = i[1]
 		info.Cpu.Stat.Nice = i[2]
 		info.Cpu.Stat.Sys = i[3]
