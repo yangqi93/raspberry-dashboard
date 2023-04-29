@@ -1,0 +1,19 @@
+
+{{define "layout"}}
+
+<html>
+{{ template "header" . }}
+<body>
+<!--内容部分-->
+{{ template "nav" . }}
+{{ block "content" .}}{{ end}}
+
+<!--底部版权部分-->
+<div class="sidebar">
+{{ template "footer" . }}
+</div>
+<!--页面JS的引用-->
+<script src="/assets/dashboard.min.js"></script>
+</body>
+</html>
+{{ end }}

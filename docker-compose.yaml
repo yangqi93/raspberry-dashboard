@@ -1,0 +1,13 @@
+version: "3.7"
+
+services:
+  app:
+    build: .
+    container_name: app-1
+    restart: always
+    volumes:
+      - ./conf:/conf
+      - ./logs:/logs
+      - ./templates:/templates
+    ports:
+      - "8089:8080"

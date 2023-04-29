@@ -1,0 +1,25 @@
+{{ define "header" }}
+    <head>
+        <meta charset="UTF-8" />
+        <title>Pi Dashboard</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+        <link href="/assets/bootstrap.min.css" rel="stylesheet">
+        <script src="/assets/jquery-3.1.1.min.js"></script>
+        <script src="/assets/highcharts.js"></script>
+        <script src="/assets/highcharts-more.js"></script>
+        <script src="/assets/solid-gauge.js"></script>
+        <script src="/assets/exporting.js"></script>
+        <script src="/assets/bootstrap.min.js"></script>
+        <script language="JavaScript">
+                window.dashboard_old = null;
+                window.dashboard = null;
+                var init_vals = eval('('+"{'mem': {'total':0,'swap':{'total':0}}, 'disk': {'total':0}, 'net': { 'count': 0} }"+')');
+            </script>
+
+        <style type="text/css">
+            .label {color: #999999; font-size: 75%; font-weight: bolder;}
+        </style>
+    </head>
+{{ end}}
