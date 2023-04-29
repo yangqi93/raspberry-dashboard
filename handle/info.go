@@ -70,6 +70,8 @@ func GetInfo() Status {
 
 	}
 
+	info.LoadAvg = []string{"0.00", "0.00", "0.00"}
+
 	return *info
 
 }
