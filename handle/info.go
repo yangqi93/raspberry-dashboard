@@ -1,7 +1,9 @@
 package handle
 
 import (
+	"math"
 	"os"
+	"regexp"
 	"strconv"
 	"strings"
 	"time"
@@ -24,7 +26,7 @@ func GetInfo() Status {
 		str := strings.Split(string(uptime), " ")
 		info.Uptime = str[0]
 	}
-	//cpu
+	//cpu core
 	cpu, err := os.ReadFile("/proc/stat")
 	if err == nil {
 		str := strings.ReplaceAll(string(cpu), "  ", " ")
@@ -46,32 +48,114 @@ func GetInfo() Status {
 	}
 
 	//meminfo
-	_, err = os.ReadFile("/proc/meminfo")
+	mem, err := os.ReadFile("/proc/meminfo")
 	if err == nil {
-		//$str = implode("", $str);
-		//
-		//        preg_match_all("/MemTotal\s{0,}\:+\s{0,}([\d\.]+).+?MemFree\s{0,}\:+\s{0,}([\d\.]+).+?Cached\s{0,}\:+\s{0,}([\d\.]+).+?SwapTotal\s{0,}\:+\s{0,}([\d\.]+).+?SwapFree\s{0,}\:+\s{0,}([\d\.]+)/s", $str, $buf);
-		//        preg_match_all("/Buffers\s{0,}\:+\s{0,}([\d\.]+)/s", $str, $buffers);
-		//
-		//        $D['mem']['total'] = round($buf[1][0]/1024, 2);
-		//        $D['mem']['free'] = round($buf[2][0]/1024, 2);
-		//        $D['mem']['buffers'] = round($buffers[1][0]/1024, 2);
-		//        $D['mem']['cached'] = round($buf[3][0]/1024, 2);
-		//        $D['mem']['cached_percent'] = (floatval($D['mem']['cached'])!=0)?round($D['mem']['cached']/$D['mem']['total']*100,2):0;
-		//        $D['mem']['used'] = $D['mem']['total']-$D['mem']['free'];
-		//        $D['mem']['percent'] = (floatval($D['mem']['total'])!=0)?round($D['mem']['used']/$D['mem']['total']*100,2):0;
-		//        $D['mem']['real']['used'] = $D['mem']['total'] - $D['mem']['free'] - $D['mem']['cached'] - $D['mem']['buffers'];
-		//        $D['mem']['real']['free'] = round($D['mem']['total'] - $D['mem']['real']['used'],2);
-		//        $D['mem']['real']['percent'] = (floatval($D['mem']['total'])!=0)?round($D['mem']['real']['used']/$D['mem']['total']*100,2):0;
-		//        $D['mem']['swap']['total'] = round($buf[4][0]/1024, 2);
-		//        $D['mem']['swap']['free'] = round($buf[5][0]/1024, 2);
-		//        $D['mem']['swap']['used'] = round($D['mem']['swap']['total']-$D['mem']['swap']['free'], 2);
-		//        $D['mem']['swap']['percent'] = (floatval($D['mem']['swap']['total'])!=0)?round($D['mem']['swap']['used']/$D['mem']['swap']['total']*100,2):0;
+		str := string(mem)
+		//正则匹配
+		reg := regexp.MustCompile(`MemTotal\:.*?([\d\.]+).+?\n`).FindStringSubmatch(str)
+		var total, free, buffers, cached, cached_percent, used, percent, real_used, real_free, real_percent, swap_total, swap_free, swap_used, swap_percent float64
+		if len(reg) >= 2 {
+			i, _ := strconv.Atoi(reg[1])
+			total = math.Round(float64(i / 1024))
+		}
+		reg = regexp.MustCompile(`MemFree\:.*?([\d\.]+).+?\n`).FindStringSubmatch(str)
+		if len(reg) >= 2 {
+			i, _ := strconv.Atoi(reg[1])
+			free = math.Round(float64(i / 1024))
+		}
+		reg = regexp.MustCompile(`Buffers\:.*?([\d\.]+).+?\n`).FindStringSubmatch(str)
+		if len(reg) >= 2 {
+			i, _ := strconv.Atoi(reg[1])
+			buffers = math.Round(float64(i / 1024))
+		}
+		reg = regexp.MustCompile(`Cached\:.*?([\d\.]+).+?\n`).FindStringSubmatch(str)
+		if len(reg) >= 2 {
+			i, _ := strconv.Atoi(reg[1])
+			cached = math.Round(float64(i / 1024))
+		}
+		reg = regexp.MustCompile(`SwapTotal\:.*?([\d\.]+).+?\n`).FindStringSubmatch(str)
+		if len(reg) >= 2 {
+			i, _ := strconv.Atoi(reg[1])
+			swap_total = math.Round(float64(i / 1024))
+		}
+		reg = regexp.MustCompile(`SwapFree\:.*?([\d\.]+).+?\n`).FindStringSubmatch(str)
+		if len(reg) >= 2 {
+			i, _ := strconv.Atoi(reg[1])
+			swap_free = math.Round(float64(i / 1024))
+		}
+		// cached percent
+		if cached != 0 && total != 0 {
+			cached_percent = math.Round(cached / total * 100)
+		}
+		// used
+		if total != 0 && free != 0 {
 
+			used = math.Round(total - free)
+		}
+		// percent
+		if total != 0 && used != 0 {
+
+			percent = math.Round(used / total * 100)
+		}
+		// real_used
+		if total != 0 && free != 0 && buffers != 0 && cached != 0 {
+
+			real_used = math.Round(total - free - buffers - cached)
+		}
+		// real_free
+		if total != 0 && real_used != 0 {
+			real_free = math.Round(total - real_used)
+		}
+		// real_percent
+		if total != 0 && real_used != 0 {
+			real_percent = math.Round(real_used / total * 100)
+		}
+		// swap_used
+		if swap_total != 0 && swap_free != 0 {
+			swap_used = math.Round(swap_total - swap_free)
+		}
+		// swap_percent
+		if swap_total != 0 && swap_used != 0 {
+			swap_percent = math.Round(swap_used / swap_total * 100)
+		}
+
+		info.Mem.Total = total
+		info.Mem.Free = free
+		info.Mem.Buffers = buffers
+		info.Mem.Cached = cached
+		info.Mem.CachedPercent = cached_percent
+		info.Mem.Used = used
+		info.Mem.Percent = percent
+		info.Mem.Real.Used = real_used
+		info.Mem.Real.Free = real_free
+		info.Mem.Real.Percent = real_percent
+		info.Mem.Swap.Total = int(swap_total)
+		info.Mem.Swap.Free = int(swap_free)
+		info.Mem.Swap.Used = int(swap_used)
+		info.Mem.Swap.Percent = int(swap_percent)
 	}
 
-	info.LoadAvg = []string{"0.00", "0.00", "0.00", "2\\/275"}
+	info.LoadAvg = []string{"0.00", "0.00", "0.00", "0/0"}
+	load, err := os.ReadFile("/proc/loadavg")
+	if err == nil {
+		str := strings.Split(string(load), " ")
+		info.LoadAvg = str
+	}
 
+	//net
+	net, err := os.ReadFile("/proc/net/dev")
+	if err == nil {
+		str := strings.Split(string(net), "\n")
+		info.Net.Count = len(str) - 3
+		for _, v := range str {
+			if strings.Contains(v, ":") {
+				info.Net.Interfaces = append(info.Net.Interfaces, Interface{
+					Name:     strings.Split(v, ":")[0],
+					TotalIn:  strings.Fields(v)[1],
+					TotalOut: strings.Fields(v)[9],
+				})
+			}
+		}
+	}
 	return *info
-
 }

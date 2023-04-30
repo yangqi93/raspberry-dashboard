@@ -28,6 +28,7 @@ type Status struct {
 			Irq     string `json:"irq"`
 			Softirq string `json:"softirq"`
 		} `json:"stat"`
+		Freq int32    `json:"freq"`
 		Temp []string `json:"temp"`
 	} `json:"cpu"`
 	Mem struct {
@@ -58,13 +59,15 @@ type Status struct {
 		Percent float64 `json:"percent"`
 	} `json:"disk"`
 	Net struct {
-		Count      int `json:"count"`
-		Interfaces []struct {
-			Name     string `json:"name"`
-			TotalIn  string `json:"total_in"`
-			TotalOut string `json:"total_out"`
-		} `json:"interfaces"`
+		Count      int         `json:"count"`
+		Interfaces []Interface `json:"interfaces"`
 	} `json:"net"`
+}
+
+type Interface struct {
+	Name     string `json:"name"`
+	TotalIn  string `json:"total_in"`
+	TotalOut string `json:"total_out"`
 }
 
 func Welcome(c *gin.Context) {
