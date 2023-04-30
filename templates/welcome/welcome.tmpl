@@ -149,26 +149,22 @@
 
                     <div class="row">
                         <div class="col-md-12">
-                            <?php
-                            for($i = 0; $i<$D['net']['count'];$i++)
-                            {
-                                ?>
+                        {{ range $i, $v := .net.interfaces }}
+
                                 <div class="row" style="margin: 0;">
                                     <div class="col-md-10 col-sm-10 col-xs-10" style="padding: 0;">
-                                        <div id="container-net-interface-<?php echo($i+1) ?>" style="min-width: 100%; height: 150px; margin: 20 auto"></div>
+                                        <div id="container-net-interface-{{$i+1}}" style="min-width: 100%; height: 150px; margin: 20 auto"></div>
                                     </div>
                                     <div class="col-md-2 col-sm-2 col-xs-2" style="padding: 0;">
                                         <div style="height: 80px; margin-top: 10px;">
-                                            <div class="text-center" style="padding: 2px 0 2px 0; background-color: #CCCCCC;"><strong><span id="net-interface-<?php echo($i+1) ?>-name"><?php echo($D['net']['interfaces'][$i]['name']) ?></span></strong></div>
-                                            <div class="text-center" style="padding: 10px 0 10px 0; background-color: #9BCEFD;"><span id="net-interface-<?php echo($i+1) ?>-total-in"><?php echo($D['net']['interfaces'][$i]['total_in']) ?></span><br /><small class="label">IN</small></div>
-                                            <div class="text-center" style="padding: 10px 0 10px 0; background-color: #CDFD9F;"><span id="net-interface-<?php echo($i+1) ?>-total-out"><?php echo($D['net']['interfaces'][$i]['total_out']) ?></span><br /><small class="label">OUT</small></div>
+                                            <div class="text-center" style="padding: 2px 0 2px 0; background-color: #CCCCCC;"><strong><span id="net-interface-{{$i+1}}-name"><?php echo($D['net']['interfaces'][$i]['name']) ?></span></strong></div>
+                                            <div class="text-center" style="padding: 10px 0 10px 0; background-color: #9BCEFD;"><span id="net-interface-{{  $i+1 }}-total-in"><?php echo($D['net']['interfaces'][$i]['total_in']) ?></span><br /><small class="label">IN</small></div>
+                                            <div class="text-center" style="padding: 10px 0 10px 0; background-color: #CDFD9F;"><span id="net-interface-{{  $i+1 }}-total-out"><?php echo($D['net']['interfaces'][$i]['total_out']) ?></span><br /><small class="label">OUT</small></div>
                                         </div>
                                     </div>
                                 </div>
 
-                            <?php
-                            }
-                            ?>
+                            {{end}}
                         </div>
                     </div>
                 </div>

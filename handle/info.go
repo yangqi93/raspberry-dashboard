@@ -89,18 +89,15 @@ func GetInfo() Status {
 		}
 		// used
 		if total != 0 && free != 0 {
-
-			used = math.Round(total - free)
+			used = total - free
 		}
 		// percent
 		if total != 0 && used != 0 {
-
 			percent = math.Round(used / total * 100)
 		}
 		// real_used
 		if total != 0 && free != 0 && buffers != 0 && cached != 0 {
-
-			real_used = math.Round(total - free - buffers - cached)
+			real_used = total - free - buffers - cached
 		}
 		// real_free
 		if total != 0 && real_used != 0 {

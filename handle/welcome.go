@@ -93,6 +93,7 @@ func Welcome(c *gin.Context) {
 		//c.HTML(500, "error.tmpl", gin.H{"error": err.Error()})
 	}
 
+	info := GetInfo()
 	err = t.ExecuteTemplate(c.Writer, "layout", gin.H{
 		"title":    "Welcome",
 		"piModel":  "aa",
@@ -101,6 +102,7 @@ func Welcome(c *gin.Context) {
 		"os":       "os",
 		"hostName": "host name",
 		"uname":    "uname",
+		"net":      info.Net,
 	})
 	if err != nil {
 		panic(err)
