@@ -27,6 +27,7 @@ WORKDIR /
 # 将构建产物/app/main拷贝到运行时的工作目录中
 COPY --from=builder /go/src/raspberry-dashboard/main /main
 COPY --from=builder /go/src/raspberry-dashboard/assets /assets
+COPY --from=builder /go/src/raspberry-dashboard/templates /templates
 
 # 执行启动命令
 CMD ["/main"]
