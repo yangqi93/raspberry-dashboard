@@ -4,6 +4,11 @@ import (
 	"github.com/Masterminds/sprig/v3"
 	"github.com/gin-gonic/gin"
 	"html/template"
+	"net"
+	"os/exec"
+	"os/user"
+	"raspberry-dashboard/config"
+	"strings"
 )
 
 type WelcomeRequest struct {
@@ -29,8 +34,11 @@ type Status struct {
 			Irq     string `json:"irq"`
 			Softirq string `json:"softirq"`
 		} `json:"stat"`
-		Freq int32    `json:"freq"`
-		Temp []string `json:"temp"`
+		Freq    int      `json:"freq"`
+		Temp    []string `json:"temp"`
+		Count   int      `json:"count"`
+		Model   string   `json:"model"`
+		PiModel string   `json:"pi_model"`
 	} `json:"cpu"`
 	Mem struct {
 		Total         float64 `json:"total"`
@@ -88,18 +96,32 @@ func Welcome(c *gin.Context) {
 	}
 
 	info := GetInfo()
+	userName := "N/A"
+	u, err := user.Current()
+	if err != nil {
+		userName = u.Username
+	}
 	err = t.ExecuteTemplate(c.Writer, "layout", gin.H{
 		"title":    "Welcome",
-		"piModel":  "aa",
-		"ip":       "hostip",
-		"user":     "root",
-		"os":       "os",
-		"hostName": "host name",
-		"uname":    "uname",
+		"piModel":  "Raspberry Pi",
+		"ip":       GetLocalIP(),
+		"user":     userName,
+		"os":       exec.Command("uname").String(),
+		"hostName": config.Conf.Value.GetString("hostName"),
+		"uname":    exec.Command("cat /proc/version").String(),
 		"net":      info.Net,
 		"info":     info,
 	})
 	if err != nil {
 		panic(err)
 	}
+}
+
+func GetLocalIP() string {
+	conn, err := net.Dial("udp", "8.8.8.8:53")
+	if err != nil {
+		return "N/A"
+	}
+	localAddr := conn.LocalAddr().(*net.UDPAddr)
+	return strings.Split(localAddr.String(), ":")[0]
 }

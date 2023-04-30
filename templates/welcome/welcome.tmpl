@@ -4,7 +4,7 @@
                 <div class="col-md-3">
                     <div style="text-align: center; padding: 20px 0;"><img src="/assets/devices/raspberry-pi.png" /></div>
                     <div style="background-color: #E0E0E0; padding: 5px; border-radius: 3px;">
-                        <div class="text-center" style="margin:10px; padding: 10px 0 10px 0; border-radius: 3px;"><div id="pimodel" style="font-size: 90%; font-weight: bolder; text-shadow: 0 1px 0 #fff;"> {{ .piModel }}</div></div>
+                        <div class="text-center" style="margin:10px; padding: 10px 0 10px 0; border-radius: 3px;"><div id="pimodel" style="font-size: 90%; font-weight: bolder; text-shadow: 0 1px 0 #fff;"> {{ .info.Cpu.PiModel }}</div></div>
                         <div class="text-center" style="margin:20px; padding: 10px 0 10px 0; background-color:#CEFCA3; border-radius: 3px;"><div class="label">IP</div><div id="hostip" style="font-size: 150%; font-weight: bolder;">{{ .ip }}</div></div>
                         <div class="text-center" style="margin:20px; padding: 10px 0 10px 0; background-color:#9DCFFB; border-radius: 3px;"><div class="label">TIME</div><div id="time" style="font-size: 150%; font-weight: bolder;">00:00</div><div id="date">-</div></div>
                         <div class="text-center" style="margin:20px; padding: 10px 0 10px 0; background-color:#FFFECD; border-radius: 3px;"><div class="label">UPTIME</div><div id="uptime" style="font-size: 120%; font-weight: bolder;">0</div></div>
@@ -22,10 +22,10 @@
                                 <div class="row" style="margin: 0; background-color:#E0E0E0;">
                                     <div class="text-center" style="padding: 2px 0 2px 0; background-color: #CDFD9F;"><strong><small>CPU</small></strong></div>
                                     <div class="col-md-3 col-sm-3 col-xs-3" style="padding: 0;">
-                                        <div class="text-center" style="padding: 10px 0 10px 0; background-color:#FFFECD;"><span id="cpu-freq" style="font-weight: bolder;"><?php echo($D['cpu']['freq']/1000) ?></span><br /><small class="label">MHz</small></div>
+                                        <div class="text-center" style="padding: 10px 0 10px 0; background-color:#FFFECD;"><span id="cpu-freq" style="font-weight: bolder;">{{ .info.Cpu.Freq }}</span><br /><small class="label">MHz</small></div>
                                     </div>
                                     <div class="col-md-3 col-sm-3 col-xs-3" style="padding: 0;">
-                                        <div class="text-center" style="padding: 10px 0 10px 0;"><span id="cpu-count"><?php echo($D['cpu']['count']) ?></span><br /><small class="label">CORE</small></div>
+                                        <div class="text-center" style="padding: 10px 0 10px 0;"><span id="cpu-count">{{ .info.Cpu.Count }}</span><br /><small class="label">CORE</small></div>
                                     </div>
                                     <div class="col-md-3 col-sm-3 col-xs-3" style="padding: 0;">
                                         <div class="text-center" style="padding: 10px 0 10px 0; background-color:#FDCCCB;"><span id="cpu-temp" style="font-weight: bolder;">0</span><br /><small class="label">C°</small></div>
@@ -52,7 +52,7 @@
                                         <div class="text-center" style="padding: 10px 0 10px 0; background-color:#9BCEFD;"><span id="cpu-stat-sirq">0</span>%<br /><small class="label">SIRQ</small></div>
                                     </div>
                                     <div class="col-md-12" style="min-height: 52px;">
-                                        <div class="text-center" style="padding: 10px 0 10px 0; margin: auto 0;"><span id="cpu-model" class="label"><?php echo($D['cpu']['model']) ?></span>&nbsp;</div>
+                                        <div class="text-center" style="padding: 10px 0 10px 0; margin: auto 0;"><span id="cpu-model" class="label">{{ .info.Cpu.Model }}</span>&nbsp;</div>
                                     </div>
                                 </div>
                             </div>
@@ -158,8 +158,8 @@
                                     <div class="col-md-2 col-sm-2 col-xs-2" style="padding: 0;">
                                         <div style="height: 80px; margin-top: 10px;">
                                             <div class="text-center" style="padding: 2px 0 2px 0; background-color: #CCCCCC;"><strong><span id="net-interface-{{add1 $i}}-name">{{$v.Name}}</span></strong></div>
-                                            <div class="text-center" style="padding: 10px 0 10px 0; background-color: #9BCEFD;"><span id="net-interface-{{  add1 $i }}-total-in"><?php echo($D['net']['interfaces'][$i]['total_in']) ?></span><br /><small class="label">IN</small></div>
-                                            <div class="text-center" style="padding: 10px 0 10px 0; background-color: #CDFD9F;"><span id="net-interface-{{  add1 $i }}-total-out"><?php echo($D['net']['interfaces'][$i]['total_out']) ?></span><br /><small class="label">OUT</small></div>
+                                            <div class="text-center" style="padding: 10px 0 10px 0; background-color: #9BCEFD;"><span id="net-interface-{{  add1 $i }}-total-in">{{ $v.TotalIn }}</span><br /><small class="label">IN</small></div>
+                                            <div class="text-center" style="padding: 10px 0 10px 0; background-color: #CDFD9F;"><span id="net-interface-{{  add1 $i }}-total-out">{{ $v.TotalOut }}</span><br /><small class="label">OUT</small></div>
                                         </div>
                                     </div>
                                 </div>

@@ -3,6 +3,7 @@ package handle
 import (
 	"math"
 	"os"
+	"os/exec"
 	"regexp"
 	"strconv"
 	"strings"
@@ -26,6 +27,35 @@ func GetInfo() Status {
 		str := strings.Split(string(uptime), " ")
 		info.Uptime = str[0]
 	}
+	//cpu
+	freq := exec.Command("cat", "/sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq").String()
+	info.Cpu.Freq, _ = strconv.Atoi(freq)
+	c, err := os.ReadFile("/proc/cpuinfo")
+	if err == nil {
+		var model, bogomips, pimodel string
+		i := 0
+		str := strings.Split(string(c), "\n")
+		for _, v := range str {
+			if strings.Contains(v, "model name") {
+				model = strings.Split(v, ":")[1]
+			}
+			if strings.Contains(v, "BogoMIPS") {
+				bogomips = strings.Split(v, ":")[1]
+				i++
+			}
+			if strings.Contains(v, "Model") {
+				pimodel = strings.Split(v, ":")[1]
+			}
+		}
+		info.Cpu.Count = i
+		if i == 1 {
+			info.Cpu.Model = model + " " + bogomips
+		} else {
+			info.Cpu.Model = model + " " + bogomips + " x" + strconv.Itoa(i)
+		}
+		info.Cpu.PiModel = pimodel
+	}
+
 	//cpu core
 	cpu, err := os.ReadFile("/proc/stat")
 	if err == nil {
@@ -143,7 +173,7 @@ func GetInfo() Status {
 	net, err := os.ReadFile("/proc/net/dev")
 	if err == nil {
 		str := strings.Split(string(net), "\n")
-		info.Net.Count = len(str) - 3
+		info.Net.Count = len(str) - 2
 		for _, v := range str {
 			if strings.Contains(v, ":") {
 				info.Net.Interfaces = append(info.Net.Interfaces, Interface{
