@@ -193,6 +193,6 @@ func GetInfo() Status {
 	info.Disk.Total = float64(state.All / diskstate.GB)
 	info.Disk.Used = float64(state.Used / diskstate.GB)
 	info.Disk.Free = float64(state.Free / diskstate.GB)
-	info.Disk.Percent = float64(state.Used / state.All * 100)
+	info.Disk.Percent = float64(100 * state.Used / state.All)
 	return *info
 }

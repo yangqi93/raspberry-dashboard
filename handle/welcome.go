@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"html/template"
 	"net"
+	"os"
 	"os/exec"
 	"os/user"
 	"raspberry-dashboard/config"
@@ -96,15 +97,17 @@ func Welcome(c *gin.Context) {
 	}
 
 	info := GetInfo()
-	userName := "N/A"
+	userName, unameR := "N/A", "N/A"
 	u, err := user.Current()
 	if err != nil {
 		userName = u.Username
 	}
-	os := exec.Command("uname")
-	osR, _ := os.CombinedOutput()
-	uname := exec.Command("cat /proc/version")
-	unameR, _ := uname.CombinedOutput()
+	o := exec.Command("uname")
+	osR, _ := o.CombinedOutput()
+	uname, err := os.ReadFile("/proc/version")
+	if err == nil {
+		unameR = string(uname)
+	}
 	err = t.ExecuteTemplate(c.Writer, "layout", gin.H{
 		"title":    "Welcome",
 		"piModel":  "Raspberry Pi",
@@ -112,7 +115,7 @@ func Welcome(c *gin.Context) {
 		"user":     userName,
 		"os":       string(osR),
 		"hostName": config.Conf.Value.GetString("hostName"),
-		"uname":    string(unameR),
+		"uname":    unameR,
 		"net":      info.Net,
 		"info":     info,
 	})
