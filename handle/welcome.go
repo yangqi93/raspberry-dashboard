@@ -101,14 +101,18 @@ func Welcome(c *gin.Context) {
 	if err != nil {
 		userName = u.Username
 	}
+	os := exec.Command("uname")
+	osR, _ := os.CombinedOutput()
+	uname := exec.Command("cat /proc/version")
+	unameR, _ := uname.CombinedOutput()
 	err = t.ExecuteTemplate(c.Writer, "layout", gin.H{
 		"title":    "Welcome",
 		"piModel":  "Raspberry Pi",
 		"ip":       GetLocalIP(),
 		"user":     userName,
-		"os":       exec.Command("uname").String(),
+		"os":       string(osR),
 		"hostName": config.Conf.Value.GetString("hostName"),
-		"uname":    exec.Command("cat /proc/version").String(),
+		"uname":    string(unameR),
 		"net":      info.Net,
 		"info":     info,
 	})
@@ -118,10 +122,10 @@ func Welcome(c *gin.Context) {
 }
 
 func GetLocalIP() string {
-	conn, err := net.Dial("udp", "8.8.8.8:53")
+	conn, err := net.Dial("tcp", "8.8.8.8:53")
 	if err != nil {
 		return "N/A"
 	}
-	localAddr := conn.LocalAddr().(*net.UDPAddr)
+	localAddr := conn.LocalAddr().(*net.TCPAddr)
 	return strings.Split(localAddr.String(), ":")[0]
 }

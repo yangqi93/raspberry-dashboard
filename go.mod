@@ -7,6 +7,7 @@ require (
 	github.com/fsnotify/fsnotify v1.6.0
 	github.com/gin-gonic/gin v1.9.0
 	github.com/spf13/viper v1.15.0
+	gitlab.com/tingshuo/go-diskstate v0.0.0-20191211131809-ee5e7223d03c
 	go.uber.org/zap v1.24.0
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1
 )
