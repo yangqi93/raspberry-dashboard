@@ -1,6 +1,7 @@
 package handle
 
 import (
+	"github.com/Masterminds/sprig/v3"
 	"github.com/gin-gonic/gin"
 	"html/template"
 )
@@ -78,14 +79,7 @@ func Welcome(c *gin.Context) {
 
 	TemplateFiles = append(TemplateFiles, "templates/welcome/welcome.tmpl")
 
-	t, err := template.New("test").Funcs(template.FuncMap{
-		"abc": func(x int) bool {
-			return x == 0 || (x+1)%4 == 0
-		},
-		"cde": func(x int) bool {
-			return x != 0 && (x+1)%4 == 0
-		},
-	}).ParseFiles(
+	t, err := template.New("test").Funcs(sprig.FuncMap()).ParseFiles(
 		TemplateFiles...,
 	)
 	if err != nil {
