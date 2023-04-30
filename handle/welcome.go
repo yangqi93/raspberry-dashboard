@@ -97,6 +97,7 @@ func Welcome(c *gin.Context) {
 		"hostName": "host name",
 		"uname":    "uname",
 		"net":      info.Net,
+		"info":     info,
 	})
 	if err != nil {
 		panic(err)

@@ -15,7 +15,7 @@
         <script language="JavaScript">
                 window.dashboard_old = null;
                 window.dashboard = null;
-                var init_vals = eval('('+"{'mem': {'total':0,'swap':{'total':0}}, 'disk': {'total':0}, 'net': { 'count': 0} }"+')');
+                var init_vals = eval('('+"{'mem': {'total':{{ .info.Mem.Total }},'swap':{'total':{{ .info.Mem.Swap.Total }}}}, 'disk': {'total':{{ .info.Disk.Total }}}, 'net': { 'count': {{ .info.Net.Count }}} }"+')');
             </script>
 
         <style type="text/css">
