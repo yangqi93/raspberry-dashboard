@@ -9,7 +9,6 @@ import (
 	"os/exec"
 	"os/user"
 	"raspberry-dashboard/config"
-	"strings"
 )
 
 type WelcomeRequest struct {
@@ -72,6 +71,7 @@ type Status struct {
 		Count      int         `json:"count"`
 		Interfaces []Interface `json:"interfaces"`
 	} `json:"net"`
+	Version string `json:"version"`
 }
 
 type Interface struct {
@@ -125,10 +125,14 @@ func Welcome(c *gin.Context) {
 }
 
 func GetLocalIP() string {
-	conn, err := net.Dial("tcp", "8.8.8.8:53")
-	if err != nil {
-		return "N/A"
+	adders, err := net.InterfaceAddrs()
+	if err == nil {
+		for _, addr := range adders {
+			if ipNet, ok := addr.(*net.IPNet); ok &&
+				!ipNet.IP.IsLinkLocalUnicast() && !ipNet.IP.IsLoopback() && ipNet.IP.To4() != nil {
+				return ipNet.IP.String()
+			}
+		}
 	}
-	localAddr := conn.LocalAddr().(*net.TCPAddr)
-	return strings.Split(localAddr.String(), ":")[0]
+	return ""
 }
