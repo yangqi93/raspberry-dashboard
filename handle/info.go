@@ -13,7 +13,8 @@ import (
 func GetInfo() Status {
 	//计算树莓派的运行信息
 	info := &Status{
-		Time: time.Now().Unix(),
+		Time:    time.Now().Unix(),
+		Version: "1.0",
 	}
 	info.Page.Time.Start = []string{
 		//当前时间微秒数
