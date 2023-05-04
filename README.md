@@ -44,3 +44,4 @@ services:
       - "1024:9001" 
 ```
 4. docker-compose up -d
+5. open http://yourip:1024
