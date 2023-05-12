@@ -3,12 +3,12 @@ package handle
 import (
 	"github.com/Masterminds/sprig/v3"
 	"github.com/gin-gonic/gin"
+	"github.com/yangqi93/raspberry-dashboard/config"
 	"html/template"
 	"net"
 	"os"
 	"os/exec"
 	"os/user"
-	"raspberry-dashboard/config"
 )
 
 type WelcomeRequest struct {

@@ -1,4 +1,4 @@
-module raspberry-dashboard
+module github.com/yangqi93/raspberry-dashboard
 
 go 1.19
 

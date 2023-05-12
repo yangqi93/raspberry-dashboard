@@ -2,9 +2,9 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	_ "raspberry-dashboard/config"
-	_ "raspberry-dashboard/log"
-	"raspberry-dashboard/router"
+	_ "github.com/yangqi93/raspberry-dashboard/config"
+	_ "github.com/yangqi93/raspberry-dashboard/log"
+	"github.com/yangqi93/raspberry-dashboard/router"
 )
 
 func main() {
