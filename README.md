@@ -1,3 +1,5 @@
+[![CodeQL](https://github.com/yangqi93/raspberry-dashboard/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/yangqi93/raspberry-dashboard/actions/workflows/codeql.yml)
+
 ## Description
 
 [rasberry-dashboard](https://github.com/yangqi93/raspberry-dashboard) 参考了 [rpi-dashboard](https://github.com/nxez/pi-dashboard) 的设计和 WebUi，使用了 Go 语言的方式实现了相同的功能。
