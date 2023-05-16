@@ -8,6 +8,7 @@ import (
 )
 
 func MemInfo() (memory *Mem, err error) {
+	memory = &Mem{}
 	mem, err := os.ReadFile("/proc/meminfo")
 	if err != nil {
 		return nil, err

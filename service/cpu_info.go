@@ -7,6 +7,7 @@ import (
 )
 
 func CpuInfo() (cpu *Cpu, err error) {
+	cpu = &Cpu{}
 	c, err := os.ReadFile("/proc/cpuinfo")
 	if err != nil {
 		return nil, err

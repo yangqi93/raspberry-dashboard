@@ -6,6 +6,7 @@ import (
 )
 
 func NetInfo() (net *Net, err error) {
+	net = &Net{}
 	netInfo, err := os.ReadFile("/proc/net/dev")
 	if err != nil {
 		return nil, err
