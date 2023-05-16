@@ -1,20 +1,37 @@
-name: Test and coverage
-
-on: [push, pull_request]
-
+name: codecov
+on: [push]
 jobs:
-  build:
+
+  codecov:
+    name: codecov
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+
+      - name: Set up Go 1.12
+        uses: actions/setup-go@v1
         with:
-          fetch-depth: 2
-      - uses: actions/setup-go@v2
-        with:
-          go-version: '1.18'
-      - name: Run coverage
-        run: go test -race -coverprofile=coverage.txt -covermode=atomic
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
+          go-version: 1.12
+        id: go
+
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v1
+
+      - name: Get dependencies
+        run: |
+          go get -v -t -d ./...
+          if [ -f Gopkg.toml ]; then
+              curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+              dep ensure
+          fi
+
+      - name: Generate coverage report
+        run: |
+          go test `go list ./... | grep -v examples` -coverprofile=coverage.txt -covermode=atomic
+
+      - name: Upload coverage report
+        uses: codecov/codecov-action@v1.0.2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./coverage.txt
+          flags: unittests
+          name: codecov-umbrella
