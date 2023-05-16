@@ -1,4 +1,5 @@
 [![CodeQL](https://github.com/yangqi93/raspberry-dashboard/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/yangqi93/raspberry-dashboard/actions/workflows/codeql.yml)
+[![codecov](https://github.com/yangqi93/raspberry-dashboard/actions/workflows/codecov.yml/badge.svg?branch=main)](https://github.com/yangqi93/raspberry-dashboard/actions/workflows/codecov.yml)
 
 ## Description
 
