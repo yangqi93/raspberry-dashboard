@@ -7,6 +7,7 @@ import (
 )
 
 func CpuCore() (stat *Stat, err error) {
+	stat = &Stat{}
 	cpu, err := os.ReadFile("/proc/stat")
 	if err != nil {
 		return nil, err
