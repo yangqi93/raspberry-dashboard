@@ -2,11 +2,20 @@ package handle
 
 import (
 	"github.com/yangqi93/raspberry-dashboard/service"
+	"github.com/yangqi93/raspberry-dashboard/service/linux"
 	"strconv"
 	"time"
 )
 
 func GetInfo() service.Status {
+	//根据平台选择不同的实例
+	arch := "linux"
+	var bios service.Arch
+	switch arch {
+	case "linux":
+		bios = linux.NewLinuxArch()
+	}
+
 	//计算树莓派的运行信息
 	info := &service.Status{
 		Time:    time.Now().Unix(),
@@ -20,17 +29,17 @@ func GetInfo() service.Status {
 	}
 
 	//uptime
-	uptime, err := service.UpTime()
+	uptime, err := bios.UpTime()
 	if err == nil {
 		info.Uptime = uptime
 	}
 
 	//cpu
-	f, err := service.CpuFreq()
+	f, err := bios.CpuFreq()
 	if err == nil {
 		info.Cpu.Freq = f
 	}
-	c, err := service.CpuInfo()
+	c, err := bios.CpuInfo()
 	if err == nil {
 		info.Cpu.Count = c.Count
 		info.Cpu.Model = c.Model
@@ -38,36 +47,36 @@ func GetInfo() service.Status {
 	}
 
 	//cpu core
-	stat, err := service.CpuCore()
+	stat, err := bios.CpuCore()
 	if err == nil {
 		info.Cpu.Stat = *stat
 	}
 
 	//cpu temp
-	temp, err := service.CpuTemp()
+	temp, err := bios.CpuTemp()
 	if err == nil {
 		info.Cpu.Temp = temp
 	}
 
 	//meminfo
-	mem, err := service.MemInfo()
+	mem, err := bios.MemInfo()
 	if err == nil {
 		info.Mem = *mem
 	}
 
-	load, err := service.LoadAvg()
+	load, err := bios.LoadAvg()
 	if err == nil {
 		info.LoadAvg = *load
 	}
 
 	//net
-	net, err := service.NetInfo()
+	net, err := bios.NetInfo()
 	if err == nil {
 		info.Net = *net
 	}
 
 	//disk
-	disk, err := service.DiskInfo()
+	disk, err := bios.DiskInfo()
 	if err == nil {
 		info.Disk = *disk
 	}

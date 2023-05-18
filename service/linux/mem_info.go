@@ -1,14 +1,15 @@
-package service
+package linux
 
 import (
+	"github.com/yangqi93/raspberry-dashboard/service"
 	"math"
 	"os"
 	"regexp"
 	"strconv"
 )
 
-func MemInfo() (memory *Mem, err error) {
-	memory = &Mem{}
+func MemInfo() (memory *service.Mem, err error) {
+	memory = &service.Mem{}
 	mem, err := os.ReadFile("/proc/meminfo")
 	if err != nil {
 		return nil, err
