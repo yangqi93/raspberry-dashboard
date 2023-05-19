@@ -8,7 +8,7 @@ func TestOs(t *testing.T) {
 		want    string
 		wantErr bool
 	}{
-		{"test", "Linux", false},
+		{"test", "Linux\n", false},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
