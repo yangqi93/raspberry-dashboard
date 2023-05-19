@@ -14,11 +14,6 @@ func (w archWindows) Uname() (string, error) {
 	panic("implement me")
 }
 
-func (w archWindows) HostName() (string, error) {
-	//TODO implement me
-	panic("implement me")
-}
-
 func (w archWindows) Platform() (string, error) {
 	//TODO implement me
 	panic("implement me")

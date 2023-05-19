@@ -13,10 +13,6 @@ func (a archLinux) Uname() (string, error) {
 	return Uname()
 }
 
-func (a archLinux) HostName() (string, error) {
-	return HostName()
-}
-
 func (a archLinux) Platform() (string, error) {
 	return Os()
 }

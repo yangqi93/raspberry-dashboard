@@ -3,6 +3,7 @@ package handle
 import (
 	"github.com/Masterminds/sprig/v3"
 	"github.com/gin-gonic/gin"
+	"github.com/yangqi93/raspberry-dashboard/config"
 	"html/template"
 )
 
@@ -34,7 +35,7 @@ func Welcome(c *gin.Context) {
 		"ip":       info.LocalIp,
 		"user":     info.UserName,
 		"os":       info.Os,
-		"hostName": info.HostName,
+		"hostName": config.HostName,
 		"uname":    info.Uname,
 		"net":      info.Net,
 		"info":     info,

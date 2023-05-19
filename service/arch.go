@@ -12,7 +12,6 @@ type Arch interface {
 	DiskInfo() (disk *Disk, err error)
 	User() (string, error)
 	Uname() (string, error)
-	HostName() (string, error)
 	Platform() (string, error)
 	LocalIp() (string, error)
 }
