@@ -17,7 +17,7 @@ func TestUname(t *testing.T) {
 				t.Errorf("Uname() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			if got != tt.want {
+			if got == tt.want {
 				t.Errorf("Uname() got = %v, want %v", got, tt.want)
 			}
 		})

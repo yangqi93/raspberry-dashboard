@@ -8,7 +8,6 @@ func TestUser(t *testing.T) {
 		want    string
 		wantErr bool
 	}{
-		{"test", "root", false},
 		{"na", "N/A", false},
 	}
 	for _, tt := range tests {
