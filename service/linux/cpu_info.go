@@ -1,13 +1,14 @@
-package service
+package linux
 
 import (
+	"github.com/yangqi93/raspberry-dashboard/service"
 	"os"
 	"strconv"
 	"strings"
 )
 
-func CpuInfo() (cpu *Cpu, err error) {
-	cpu = &Cpu{}
+func CpuInfo() (cpu *service.Cpu, err error) {
+	cpu = &service.Cpu{}
 	c, err := os.ReadFile("/proc/cpuinfo")
 	if err != nil {
 		return nil, err

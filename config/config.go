@@ -7,6 +7,7 @@ import (
 )
 
 var Conf Config
+var HostName string
 
 type Config struct {
 	Name  string
@@ -23,6 +24,7 @@ func init() {
 	}
 	Conf = c
 
+	HostName = Conf.Value.GetString("hostName")
 	// 监控配置文件变化并热加载程序
 	//c.watchConfig()
 

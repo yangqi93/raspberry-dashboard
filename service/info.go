@@ -10,6 +10,12 @@ type Status struct {
 	Disk    Disk     `json:"disk"`
 	Net     Net      `json:"net"`
 	Version string   `json:"version"`
+
+	LocalIp  string `json:"local_ip"`
+	UserName string `json:"user_name"`
+	Uname    string `json:"uname"`
+	Os       string `json:"os"`
+	HostName string `json:"host_name"`
 }
 
 type Page struct {

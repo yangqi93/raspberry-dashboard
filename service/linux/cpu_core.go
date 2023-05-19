@@ -1,13 +1,14 @@
-package service
+package linux
 
 import (
 	"errors"
+	"github.com/yangqi93/raspberry-dashboard/service"
 	"os"
 	"strings"
 )
 
-func CpuCore() (stat *Stat, err error) {
-	stat = &Stat{}
+func CpuCore() (stat *service.Stat, err error) {
+	stat = &service.Stat{}
 	cpu, err := os.ReadFile("/proc/stat")
 	if err != nil {
 		return nil, err
