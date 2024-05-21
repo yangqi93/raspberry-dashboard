@@ -1,19 +1,26 @@
 package handle
 
 import (
+	"errors"
 	"github.com/yangqi93/raspberry-dashboard/service"
 	"github.com/yangqi93/raspberry-dashboard/service/linux"
+	"github.com/yangqi93/raspberry-dashboard/service/windows"
+	"runtime"
 	"strconv"
 	"time"
 )
 
-func GetInfo() service.Status {
+func GetInfo() (service.Status, error) {
 	//根据平台选择不同的实例
-	arch := "linux"
+	arch := runtime.GOOS
 	var bios service.Arch
 	switch arch {
 	case "linux":
 		bios = linux.NewLinuxArch()
+	case "windows":
+		bios = windows.NewWindowsArch()
+	default:
+		return service.Status{}, errors.New("not support platform")
 	}
 
 	//计算树莓派的运行信息
@@ -30,9 +37,10 @@ func GetInfo() service.Status {
 
 	//uptime
 	uptime, err := bios.UpTime()
-	if err == nil {
-		info.Uptime = uptime
+	if err != nil {
+		return *info, err
 	}
+	info.Uptime = uptime
 
 	//cpu
 	f, err := bios.CpuFreq()
@@ -66,7 +74,7 @@ func GetInfo() service.Status {
 
 	load, err := bios.LoadAvg()
 	if err == nil {
-		info.LoadAvg = *load
+		info.LoadAvg = load
 	}
 
 	//net
@@ -80,5 +88,5 @@ func GetInfo() service.Status {
 	if err == nil {
 		info.Disk = *disk
 	}
-	return *info
+	return *info, nil
 }

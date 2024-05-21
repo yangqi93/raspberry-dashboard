@@ -33,7 +33,7 @@ func (a archLinux) MemInfo() (memory *service.Mem, err error) {
 	return MemInfo()
 }
 
-func (a archLinux) LoadAvg() (load *[]string, err error) {
+func (a archLinux) LoadAvg() (load []string, err error) {
 	return LoadAvg()
 }
 

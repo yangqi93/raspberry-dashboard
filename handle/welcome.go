@@ -14,11 +14,12 @@ type WelcomeRequest struct {
 
 func Welcome(c *gin.Context) {
 	if ajax, ok := c.GetQuery("ajax"); ok && ajax == "true" {
-		c.JSON(200, GetInfo())
+		info, _ := GetInfo()
+		c.JSON(200, info)
 		return
 	}
 
-	TemplateFiles = append(TemplateFiles, "templates/welcome/welcome.tmpl")
+	TemplateFiles = append(TemplateFiles, "templates/welcome/welcome.tmpl", "templates/error.tmpl")
 
 	t, err := template.New("test").Funcs(sprig.FuncMap()).ParseFiles(
 		TemplateFiles...,
@@ -28,7 +29,11 @@ func Welcome(c *gin.Context) {
 		//c.HTML(500, "error.tmpl", gin.H{"error": err.Error()})
 	}
 
-	info := GetInfo()
+	info, err := GetInfo()
+	if err != nil {
+		_ = t.ExecuteTemplate(c.Writer, "error.tmpl", gin.H{"error": err.Error()})
+		return
+	}
 	err = t.ExecuteTemplate(c.Writer, "layout", gin.H{
 		"title":    "Welcome",
 		"piModel":  info.Cpu.PiModel,
