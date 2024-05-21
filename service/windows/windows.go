@@ -3,11 +3,11 @@ package windows
 import (
 	"errors"
 	"fmt"
-	"github.com/shirou/gopsutil/cpu"
-	"github.com/shirou/gopsutil/disk"
 	"github.com/shirou/gopsutil/host"
 	"github.com/shirou/gopsutil/mem"
 	"github.com/shirou/gopsutil/net"
+	"github.com/shirou/gopsutil/v3/cpu"
+	"github.com/shirou/gopsutil/v3/disk"
 	"github.com/yangqi93/raspberry-dashboard/service"
 	"gitlab.com/tingshuo/go-diskstate/diskstate"
 	"math"
@@ -58,7 +58,7 @@ func (w archWindows) CpuInfo() (cpuInfo *service.Cpu, err error) {
 	return &service.Cpu{
 		Count:   int(c[0].Cores),
 		Model:   c[0].ModelName,
-		PiModel: "windows",
+		PiModel: c[0].Model,
 	}, nil
 }
 

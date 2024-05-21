@@ -88,5 +88,20 @@ func GetInfo() (service.Status, error) {
 	if err == nil {
 		info.Disk = *disk
 	}
+
+	ip, err := bios.LocalIp()
+	if err == nil {
+		info.LocalIp = ip
+	}
+
+	os, err := bios.Platform()
+	if err == nil {
+		info.Os = os
+	}
+
+	uname, err := bios.Uname()
+	if err == nil {
+		info.Uname = uname
+	}
 	return *info, nil
 }
